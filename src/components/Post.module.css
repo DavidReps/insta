@@ -1,0 +1,11 @@
+.user{
+    border-radius: 50%;
+    height: 30px;
+    width: auto;
+    object-fit: cover;
+}
+
+.post{
+    object-fit: cover;
+    
+}
