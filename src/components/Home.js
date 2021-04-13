@@ -1,45 +1,53 @@
-import React from 'react';
-import Post from 'components/Post';
+import Post from "./Post.js";
+import { useParams } from "react-router-dom";
+import React, { useContext } from 'react';
+import { StoreContext } from 'contexts/StoreContext';
+
+function Home(props) {
+  const { store } = StoreContext;
+  const { postId } = useParams(); // the variable name has to match the parameter name
+  let {
+    posts, users, comments, likes, currentUserId, 
+    addComment, addLike, removeLike
+  } = useContext(StoreContext);
 
 
 
-function Home() {
+  function findUser(post){
+    return users.find(user=>user.id===post.userId);
+  }
 
-const post = {
-  user:{
-    id:"judy",
-    photo:"/assets/user1.png",
-  },
-  post:{
-    id:"post-1",
-    userId:"judy",
-    photo:"/assets/post1.png",
-    desc:"#zootopia #excited",
-    datetime: "2020-02-09T22:45:28Z"
-  },
-  likes: {
-    self: true,
-    count:1
-  },
-  comments:[
-    {
-      userId:"nick",
-      text:"Welcome to Zootopia!"
-    },
-    {
-        userId:"judy",
-        text:"Thanks!😁Looking forward to meeting you!"
-    }
-  ]
-}
-  
+  function findComments(post) {
+    return comments.filter(comment => comment.postId === post.id);
+  }
 
-  return <Post
-  user = {post.user}
-  post = {post.post}
-  likes = {post.likes}
-  comments = {post.comments}
-  />
+  function findLikes(post) {
+    let postLikes = likes.filter(like => like.postId === post.id);
+    return {
+      self: postLikes.some(like => like.userId === currentUserId),
+      count: postLikes.length
+    };
+  }
+
+  return (
+    <div>
+      {posts
+        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+       .filter(post=>postId?(post.id===postId):true)
+        .map(post => (
+          <Post
+            key={post.id}
+            user={findUser(post, store)}
+            post={post}
+            comments={findComments(post, store)}
+            likes={findLikes(post, store)}
+            onLike={addLike}
+            onUnlike={removeLike}
+            onComment={addComment}
+          />
+        ))}
+    </div>
+  );
 }
 
 export default Home;
