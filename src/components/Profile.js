@@ -8,13 +8,13 @@ import publicUrl from 'utils/publicUrl';
 
 
 function Profile(props) {
-  // const { store } = StoreContext;
   let {
     posts, users, currentUserId, addFollower, removeFollower,followers,
 
   } = useContext(StoreContext);
 
-  let { userId } = useParams(); // the variable name has to match the parameter name
+  let { userId } = useParams(); 
+  
   userId = userId ? userId : currentUserId;
   const user = users.find(u => u.id === userId);
   // const posts = posts.filter(p => p.userId === userId);
@@ -31,22 +31,6 @@ function Profile(props) {
     removeFollower(userId, currentUserId);
   }
 
-
-  //   function addFollower(userId, followerId) {
-  //   console.log(userId, followerId);
-  //   setStore({
-  //     ...store,
-  //     followers: followers.concat({ userId, followerId })
-  //   });
-  // }
-  // function removeFollower(userId, followerId) {
-  //   setStore({
-  //     ...store,
-  //     followers: store.followers.filter(
-  //       f => f.userId !== userId && f.followerId !== followerId
-  //     )
-  //   });
-  // }
 
   return (
     <div>

@@ -9,9 +9,10 @@ import {
 function Post(props){
     const [comment, setComment] = useState('');
     const [toggleComment, setToggleComment] = useState(false);
+    // console.log(props.user.id)
 
     return(
-        <article>
+        <section className={css.post}>
             <img className={css.user} src={publicUrl(props.user.photo)} alt={props.user.id}/>
                     {props.user.id}
             <div>
@@ -54,7 +55,7 @@ function Post(props){
             </form>
         }   
 
-        </article>
+        </section>
         
     );
 

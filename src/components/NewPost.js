@@ -56,7 +56,7 @@ function NewPost(props) {
       setError('You need to add a photo!');
       return;
     }
-    addPost(photo, desc);
+    addPost(photo, desc); 
     history.push('/');
     setError('');
   }

@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import React, { useContext } from 'react';
 import { StoreContext } from 'contexts/StoreContext';
 
+
 function Home(props) {
   const { store } = StoreContext;
-  const { postId } = useParams(); // the variable name has to match the parameter name
+  let { postId } = useParams(); // the variable name has to match the parameter name
   let {
     posts, users, comments, likes, currentUserId, 
     addComment, addLike, removeLike
@@ -31,16 +32,15 @@ function Home(props) {
 
   return (
     <div>
-      {posts
-        .sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
+      {posts.sort((a, b) => new Date(b.datetime) - new Date(a.datetime))
        .filter(post=>postId?(post.id===postId):true)
         .map(post => (
           <Post
             key={post.id}
-            user={findUser(post, store)}
+            user={findUser(post, users)}
             post={post}
-            comments={findComments(post, store)}
-            likes={findLikes(post, store)}
+            comments={findComments(post, comments)}
+            likes={findLikes(post, likes)}
             onLike={addLike}
             onUnlike={removeLike}
             onComment={addComment}
